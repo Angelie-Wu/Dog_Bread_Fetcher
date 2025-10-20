@@ -37,7 +37,7 @@ public class DogApiBreedFetcher implements BreedFetcher {
             final JSONObject responseBody = new JSONObject(body);
             if(!response.isSuccessful())
                 throw new BreedNotFoundException("Breed not found: " + breed);
-            if(!"success".equals(responseBody.getString("status")))
+            if("error".equals(responseBody.getString("status")))
                 throw new BreedNotFoundException("Breed not found: " + breed);
 
             JSONArray messageArray = responseBody.getJSONArray("message");
@@ -49,13 +49,7 @@ public class DogApiBreedFetcher implements BreedFetcher {
             return subBreeds;
 
         }catch(IOException | JSONException event){
-
+            throw new BreedNotFoundException("Breed not found: " + breed);
         }
-        // TODO Task 1: Complete this method based on its provided documentation
-        //      and the documentation for the dog.ceo API. You may find it helpful
-        //      to refer to the examples of using OkHttpClient from the last lab,
-        //      as well as the code for parsing JSON responses.
-        // return statement included so that the starter code can compile and run.
-        return new ArrayList<>();
     }
 }
